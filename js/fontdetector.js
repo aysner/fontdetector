@@ -56,7 +56,7 @@ fontdetector = (function() {
 
 		for(var f = 0; f < fonts.length; f++) {
 			testcanvas = getFontImage(fonts[f]);
-			testresult = compareImages(testcanvas, nofont_pixel);
+			testresult = testcanvas != nofont_pixel;
 			results[fonts[f]] = testresult;
 		}
 
@@ -77,24 +77,9 @@ fontdetector = (function() {
 
 		ctx.font = "20pt "+font; // Falls back to serif
 		ctx.fillText("_.ABCDEFabcdef", 0, 20);
-		pixel = ctx.getImageData(0, 0, w, h);
+		//pixel = ctx.getImageData(0, 0, w, h);
 
-		return pixel.data;
-	}
-
-	/**
-	* Internal function to compare image data
-	* @param  {Uint8ClampedArray} source [description]
-	* @param  {Uint8ClampedArray} target [description]
-	* @return {bool}  Returns true if the images are different
-	*/
-	function compareImages(source,target) {
-		for(var s = 0; s < source.length; s++) {
-			if(source[s]!==target[s]) {
-				return true;
-			}
-		}
-		return false;
+		return canvas.toDataURL();
 	}
 
 	return this;
